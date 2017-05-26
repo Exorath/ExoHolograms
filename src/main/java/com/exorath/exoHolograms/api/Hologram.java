@@ -32,6 +32,8 @@ public interface Hologram {
 
     void removeLine(int index);
 
+    void removeLine(HologramLine line);
+
 
     void clear();
 

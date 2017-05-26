@@ -45,7 +45,7 @@ public class SimpleHologram implements Hologram {
         if (removed)
             return null;
         SimpleTextLine simpleTextLine = new SimpleTextLine(text, this, nmsManager);
-        if(!visible)
+        if (!visible)
             simpleTextLine.setVisible(false);
         lines.add(simpleTextLine);
         refreshSingleLines();
@@ -56,7 +56,7 @@ public class SimpleHologram implements Hologram {
         if (removed)
             return null;
         SimpleTextLine simpleTextLine = new SimpleTextLine(text, this, nmsManager);
-        if(!visible)
+        if (!visible)
             simpleTextLine.setVisible(false);
         lines.add(index, simpleTextLine);
         refreshSingleLines();
@@ -71,6 +71,15 @@ public class SimpleHologram implements Hologram {
         if (removed)
             return;
         lines.remove(index);
+
+    }
+
+    @Override
+    public void removeLine(HologramLine line) {
+        boolean removed = lines.remove(line);
+        if (removed)
+            refreshSingleLines();
+        line.despawn();
 
     }
 
@@ -90,6 +99,8 @@ public class SimpleHologram implements Hologram {
     public void setVisible(boolean visible) {
         this.visible = visible;
         lines.forEach(line -> line.setVisible(visible));
+        if (visible)
+            refreshSingleLines();
     }
 
     public void clear() {
@@ -130,6 +141,8 @@ public class SimpleHologram implements Hologram {
     }
 
     public void refreshSingleLines() {
+        if (!visible)
+            return;
         if (location.getWorld().isChunkLoaded(location.getChunk().getX(), location.getChunk().getZ())) {
             double currentY = location.getY();
             boolean first = true;
