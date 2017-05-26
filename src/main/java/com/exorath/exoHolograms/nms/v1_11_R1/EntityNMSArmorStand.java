@@ -43,6 +43,7 @@ import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorStand {
     private boolean lockTicks = true;
     private HologramLine hologramLine;
+    private boolean visible = true;
 
     public EntityNMSArmorStand(World world, HologramLine hologramLine) {
         super(world);
@@ -57,6 +58,12 @@ public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorSta
         this.hologramLine = hologramLine;
     }
 
+    public void setVisible(boolean visible){
+        this.visible = visible;
+        super.setCustomNameVisible(getCustomName() != null && !getCustomName().isEmpty() && visible);
+    }
+
+
     @Override
     public HologramLine getHologramLine() {
         return hologramLine;
@@ -67,7 +74,7 @@ public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorSta
         if (name != null && name.length() > 300)
             name = name.substring(0, 300);
         super.setCustomName(name);
-        super.setCustomNameVisible(name != null && !name.isEmpty());
+        super.setCustomNameVisible(name != null && !name.isEmpty() && visible);
     }
 
     @Override

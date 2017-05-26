@@ -42,6 +42,11 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     }
 
     @Override
+    public void setVisible(boolean visible) {
+        nmsArmorStand.setVisible(visible);
+    }
+
+    @Override
     public void setText(String text) {
         this.text = text;
         if (nmsArmorStand != null)

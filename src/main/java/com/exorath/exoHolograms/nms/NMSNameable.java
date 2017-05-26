@@ -23,4 +23,6 @@ public interface NMSNameable extends BaseNMSEntity {
     void setNameNMS(String name);
 
     String getNameNMS();
+
+    void setVisible(boolean visible);
 }

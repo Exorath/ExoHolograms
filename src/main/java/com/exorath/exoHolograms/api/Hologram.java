@@ -48,4 +48,6 @@ public interface Hologram {
     boolean isRemoved();
 
     void despawnEntities();
+
+    void setVisible(boolean visible);
 }

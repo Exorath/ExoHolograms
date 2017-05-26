@@ -26,4 +26,6 @@ public interface HologramLine {
 
     Hologram getParent();
 
+    void setVisible(boolean visible);
+
 }

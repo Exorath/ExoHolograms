@@ -34,6 +34,7 @@ public class SimpleHologram implements Hologram {
     private final List<SimpleHologramLine> lines = new ArrayList<>();
     private boolean removed;
     private NMSManager nmsManager;
+    private boolean visible = true;
 
     public SimpleHologram(Location location, NMSManager nmsManager) {
         this.location = location;
@@ -44,6 +45,8 @@ public class SimpleHologram implements Hologram {
         if (removed)
             return null;
         SimpleTextLine simpleTextLine = new SimpleTextLine(text, this, nmsManager);
+        if(!visible)
+            simpleTextLine.setVisible(false);
         lines.add(simpleTextLine);
         refreshSingleLines();
         return simpleTextLine;
@@ -53,6 +56,8 @@ public class SimpleHologram implements Hologram {
         if (removed)
             return null;
         SimpleTextLine simpleTextLine = new SimpleTextLine(text, this, nmsManager);
+        if(!visible)
+            simpleTextLine.setVisible(false);
         lines.add(index, simpleTextLine);
         refreshSingleLines();
         return simpleTextLine;
@@ -79,6 +84,12 @@ public class SimpleHologram implements Hologram {
         height += SPACE_BETWEEN_LINES * (lines.size() - 1);
         return height;
 
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+        lines.forEach(line -> line.setVisible(visible));
     }
 
     public void clear() {
@@ -134,7 +145,7 @@ public class SimpleHologram implements Hologram {
                 } else
                     line.spawn(new Location(location.getWorld(), location.getX(), currentY, location.getZ()));
             }
-        }else
+        } else
             System.out.println("Tried to update some holo lines but the chunk wasn't loaded");
     }
 
