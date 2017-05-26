@@ -17,13 +17,20 @@
 package com.exorath.exoHolograms.api;
 
 import com.exorath.exoHolograms.impl.SimpleHologram;
+import com.exorath.exoHolograms.nms.BaseNMSEntity;
 import com.exorath.exoHolograms.nms.NMSManager;
 import com.exorath.exoHolograms.nms.v1_11_R1.NMSManagerImpl;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -34,29 +41,52 @@ import java.util.Set;
  */
 public class HologramsAPI implements Listener {
     private static HologramsAPI instance;
+    private Plugin plugin;
     private NMSManager nmsManager;
 
     private Set<Hologram> holograms = new HashSet<>();
 
-    public HologramsAPI() {
+    public HologramsAPI(Plugin plugin) {
+        this.plugin = plugin;
         this.nmsManager = new NMSManagerImpl();
-        HologramsAPI.instance = this;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onChunkLoad(ChunkLoadEvent event) {
-        for (Hologram hologram : holograms)
-                if (hologram.getLocation().getChunk().equals(event.getChunk()))
-                    ((SimpleHologram) hologram).refreshSingleLines();
+        final Chunk chunk = event.getChunk();
+        if (chunk.isLoaded()) {
+            if (Bukkit.isPrimaryThread()) {
+                loadChunk(chunk);
+            } else
+                Bukkit.getScheduler().runTask(plugin, () -> loadChunk(chunk));
+        }
     }
 
-    @EventHandler
+    private void loadChunk(Chunk chunk) {
+        for (Hologram hologram : holograms)
+            if (hologram.getLocation().getChunk().equals(chunk))
+                ((SimpleHologram) hologram).refreshSingleLines();
+    }
+
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onChunkUnload(ChunkUnloadEvent event) {
-        for (Hologram hologram : holograms)
-            if (hologram.getLocation().getChunk().equals(event.getChunk()))
-                ((SimpleHologram) hologram).despawnEntities();
+        for (Entity entity : event.getChunk().getEntities()) {
+            if (!entity.isDead()) {
+                BaseNMSEntity entityBase = nmsManager.getNMSEntityBase(entity);
+                if (entityBase != null) {
+                    entityBase.killEntityNMS();
+                }
+            }
+        }
     }
 
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onCreatureSpawn(CreatureSpawnEvent event) {
+        if (nmsManager.getNMSEntityBase(event.getEntity()) != null)
+            if (event.isCancelled())
+                event.setCancelled(false);
+    }
 
     public NMSManager getNMSManager() {
         return nmsManager;
@@ -85,9 +115,18 @@ public class HologramsAPI implements Listener {
         holograms.clear();
     }
 
-    public synchronized static HologramsAPI getInstance() {
+    public synchronized static HologramsAPI getInstance(Plugin plugin) {
         if (instance == null)
-            instance = new HologramsAPI();
+            HologramsAPI.instance = new HologramsAPI(plugin);
         return instance;
+    }
+
+    /**
+     * This will use a random plugin as the plugin for the scheduler
+     *
+     * @return
+     */
+    public synchronized static HologramsAPI getInstance() {
+        return getInstance(Bukkit.getPluginManager().getPlugins()[0]);
     }
 }

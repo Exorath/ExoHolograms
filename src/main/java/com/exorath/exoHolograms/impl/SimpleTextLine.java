@@ -16,10 +16,10 @@
 
 package com.exorath.exoHolograms.impl;
 
+import com.exorath.exoHolograms.api.Hologram;
 import com.exorath.exoHolograms.api.lines.TextLine;
 import com.exorath.exoHolograms.nms.NMSArmorStand;
 import com.exorath.exoHolograms.nms.NMSManager;
-import com.exorath.exoHolograms.nms.NMSNameable;
 import org.bukkit.Location;
 
 /**
@@ -31,8 +31,8 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
 
     private NMSManager nmsManager;
 
-    public SimpleTextLine(String text, NMSManager nmsManager) {
-        super(0.23);
+    public SimpleTextLine(String text, SimpleHologram parent, NMSManager nmsManager) {
+        super(0.23, parent);
         this.nmsManager = nmsManager;
         setText(text);
     }
@@ -59,7 +59,7 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     @Override
     public void spawn(Location location) {
         if(!isSpawned() || nmsArmorStand == null){
-            nmsArmorStand = nmsManager.spawnArmorStand(location);
+            nmsArmorStand = nmsManager.spawnArmorStand(location, this);
             this.teleport(location);
         }
         super.spawn(location);

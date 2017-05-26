@@ -16,6 +16,7 @@
 
 package com.exorath.exoHolograms.nms;
 
+import com.exorath.exoHolograms.api.lines.HologramLine;
 import org.bukkit.Location;
 
 /**
@@ -25,5 +26,7 @@ public interface BaseNMSEntity {
     void setLockTicks(boolean lockTicks);
     void setLocationNMS(Location location);
     void killEntityNMS();
+
+    HologramLine getHologramLine();
 
 }

@@ -43,7 +43,7 @@ public class SimpleHologram implements Hologram {
     public TextLine appendTextLine(String text) {
         if (removed)
             return null;
-        SimpleTextLine simpleTextLine = new SimpleTextLine(text, nmsManager);
+        SimpleTextLine simpleTextLine = new SimpleTextLine(text, this, nmsManager);
         lines.add(simpleTextLine);
         refreshSingleLines();
         return simpleTextLine;
@@ -52,7 +52,7 @@ public class SimpleHologram implements Hologram {
     public TextLine insertTextLine(int index, String text) {
         if (removed)
             return null;
-        SimpleTextLine simpleTextLine = new SimpleTextLine(text, nmsManager);
+        SimpleTextLine simpleTextLine = new SimpleTextLine(text, this, nmsManager);
         lines.add(index, simpleTextLine);
         refreshSingleLines();
         return simpleTextLine;

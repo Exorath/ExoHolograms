@@ -16,9 +16,13 @@
 
 package com.exorath.exoHolograms.api.lines;
 
+import com.exorath.exoHolograms.api.Hologram;
+
 /**
  * Created by toonsev on 5/25/2017.
  */
 public interface HologramLine {
     void despawn();
+
+    Hologram getParent();
 }

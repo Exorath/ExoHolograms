@@ -16,6 +16,7 @@
 
 package com.exorath.exoHolograms.nms.v1_11_R1;
 
+import com.exorath.exoHolograms.api.lines.HologramLine;
 import com.exorath.exoHolograms.impl.SimpleHologramLine;
 import com.exorath.exoHolograms.nms.NMSArmorStand;
 import net.minecraft.server.v1_11_R1.EntityArmorStand;
@@ -40,8 +41,9 @@ import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
  */
 public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorStand {
     private boolean lockTicks;
+    private HologramLine hologramLine;
 
-    public EntityNMSArmorStand(World world) {
+    public EntityNMSArmorStand(World world, HologramLine hologramLine) {
         super(world);
         super.setInvisible(true);
         super.setSmall(true);
@@ -51,6 +53,12 @@ public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorSta
         super.setMarker(true);
         super.collides = false;
         super.a(new NullBoundingBox());
+        this.hologramLine = hologramLine;
+    }
+
+    @Override
+    public HologramLine getHologramLine() {
+        return hologramLine;
     }
 
     @Override

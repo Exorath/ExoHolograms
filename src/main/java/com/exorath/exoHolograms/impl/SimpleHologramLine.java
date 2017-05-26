@@ -25,14 +25,21 @@ import org.bukkit.Location;
 public abstract  class SimpleHologramLine implements HologramLine {
     private double height;
     private boolean spawned;
+    private SimpleHologram parent;
 
-    public SimpleHologramLine(double height) {
+    public SimpleHologramLine(double height, SimpleHologram parent) {
         this.height = height;
+        this.parent = parent;
     }
 
     public void spawn(Location location) {
         despawn();
         spawned = true;
+    }
+
+    @Override
+    public SimpleHologram getParent() {
+        return parent;
     }
 
     public double getHeight() {

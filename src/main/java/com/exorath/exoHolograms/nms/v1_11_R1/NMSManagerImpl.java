@@ -16,6 +16,8 @@
 
 package com.exorath.exoHolograms.nms.v1_11_R1;
 
+import com.exorath.exoHolograms.api.lines.HologramLine;
+import com.exorath.exoHolograms.nms.BaseNMSEntity;
 import com.exorath.exoHolograms.nms.NMSArmorStand;
 import com.exorath.exoHolograms.nms.NMSManager;
 import net.minecraft.server.v1_11_R1.Entity;
@@ -25,6 +27,7 @@ import net.minecraft.server.v1_11_R1.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
 
 import java.lang.reflect.Method;
 
@@ -46,9 +49,9 @@ public class NMSManagerImpl implements NMSManager {
     }
 
     @Override
-    public NMSArmorStand spawnArmorStand(Location location) {
+    public NMSArmorStand spawnArmorStand(Location location, HologramLine parent) {
         WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
-        EntityNMSArmorStand as = new EntityNMSArmorStand(nmsWorld);
+        EntityNMSArmorStand as = new EntityNMSArmorStand(nmsWorld, parent);
         as.setLocationNMS(location);
         if (!addEntityToWorld(nmsWorld, as))
             System.out.println("Failed to spawn armorstand :(");
@@ -77,5 +80,11 @@ public class NMSManagerImpl implements NMSManager {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public BaseNMSEntity getNMSEntityBase(org.bukkit.entity.Entity bukkitEntity) {
+        Entity nmsEntity = ((CraftEntity) bukkitEntity).getHandle();
+        return nmsEntity instanceof BaseNMSEntity ? (BaseNMSEntity) nmsEntity : null;
     }
 }
