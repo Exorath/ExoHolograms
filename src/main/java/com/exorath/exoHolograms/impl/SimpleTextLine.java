@@ -52,6 +52,12 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
 
     }
 
+    @Override
+    public void spawn(Location location) {
+        super.spawn(location);
+        this.teleport(location);
+    }
+
     private double getTextOffset() {
         return -0.29d;
     }

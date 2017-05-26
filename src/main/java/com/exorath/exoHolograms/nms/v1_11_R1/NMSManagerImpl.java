@@ -16,10 +16,8 @@
 
 package com.exorath.exoHolograms.nms.v1_11_R1;
 
-import com.exorath.exoHolograms.impl.SimpleHologramLine;
 import com.exorath.exoHolograms.nms.NMSArmorStand;
 import com.exorath.exoHolograms.nms.NMSManager;
-import com.sun.org.apache.bcel.internal.generic.RET;
 import net.minecraft.server.v1_11_R1.Entity;
 import net.minecraft.server.v1_11_R1.MathHelper;
 import net.minecraft.server.v1_11_R1.WorldServer;
@@ -38,6 +36,8 @@ public class NMSManagerImpl implements NMSManager {
         as.setLocationNMS(location);
         if (!addEntityToWorld(nmsWorld, as))
             System.out.println("Failed to spawn armorstand :(");
+        if(as == null)
+            System.out.println("Spawning armorstand returned null");
         return as;
     }
 

@@ -134,7 +134,8 @@ public class SimpleHologram implements Hologram {
                 } else
                     line.spawn(new Location(location.getWorld(), location.getX(), currentY, location.getZ()));
             }
-        }
+        }else
+            System.out.println("Tried to update some holo lines but the chunk wasn't loaded");
     }
 
     private void despawnEntities() {
