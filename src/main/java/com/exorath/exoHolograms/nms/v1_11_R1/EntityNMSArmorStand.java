@@ -19,6 +19,7 @@ package com.exorath.exoHolograms.nms.v1_11_R1;
 import com.exorath.exoHolograms.api.lines.HologramLine;
 import com.exorath.exoHolograms.impl.SimpleHologramLine;
 import com.exorath.exoHolograms.nms.NMSArmorStand;
+import com.exorath.exoHolograms.util.ReflectionUtils;
 import net.minecraft.server.v1_11_R1.EntityArmorStand;
 import net.minecraft.server.v1_11_R1.NBTTagCompound;
 import net.minecraft.server.v1_11_R1.PacketPlayOutEntityTeleport;
@@ -163,7 +164,11 @@ public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorSta
     }
     @Override
     public int getId() {
-        //TODO: return fake id on new movement packet?
+        StackTraceElement element = ReflectionUtils.getStackTraceElement(2);
+        if (element != null && element.getFileName() != null && element.getFileName().equals("EntityTrackerEntry.java") && 158 < element.getLineNumber() && element.getLineNumber() < 168) {
+            return -1;
+        }
+
         return super.getId();
     }
 
