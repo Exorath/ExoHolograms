@@ -58,7 +58,7 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     @Override
     public void spawn(Location location) {
         super.spawn(location);
-        if(!isSpawned() || nmsArmorStand == null){
+        if (nmsArmorStand == null) {
             nmsArmorStand = nmsManager.spawnArmorStand(location, this);
             nmsArmorStand.setNameNMS(text != null && !text.isEmpty() ? text : "");
             this.teleport(location);
@@ -68,7 +68,7 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     @Override
     public void despawn() {
         super.despawn();
-        if(nmsArmorStand != null) {
+        if (nmsArmorStand != null) {
             nmsArmorStand.killEntityNMS();
             nmsArmorStand = null;
         }
