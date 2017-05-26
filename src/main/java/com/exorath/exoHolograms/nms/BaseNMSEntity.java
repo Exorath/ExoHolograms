@@ -23,7 +23,7 @@ import org.bukkit.Location;
  */
 public interface BaseNMSEntity {
     void setLockTicks(boolean lockTicks);
-    void setLocation(Location location);
-    void killEntity();
+    void setLocationNMS(Location location);
+    void killEntityNMS();
 
 }

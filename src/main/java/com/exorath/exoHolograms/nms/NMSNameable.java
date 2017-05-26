@@ -19,8 +19,8 @@ package com.exorath.exoHolograms.nms;
 /**
  * Created by toonsev on 5/25/2017.
  */
-public interface NMSNameable {
-    void setName(String name);
+public interface NMSNameable extends BaseNMSEntity {
+    void setNameNMS(String name);
 
-    String getName();
+    String getNameNMS();
 }

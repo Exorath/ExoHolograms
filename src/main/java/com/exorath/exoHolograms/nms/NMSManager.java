@@ -16,12 +16,11 @@
 
 package com.exorath.exoHolograms.nms;
 
-import com.exorath.exoHolograms.api.lines.HologramLine;
 import org.bukkit.Location;
 
 /**
  * Created by toonsev on 5/25/2017.
  */
 public interface NMSManager {
-    void spawnArmorStand(Location location, HologramLine hologramLine);
+    NMSArmorStand  spawnArmorStand(Location location);
 }

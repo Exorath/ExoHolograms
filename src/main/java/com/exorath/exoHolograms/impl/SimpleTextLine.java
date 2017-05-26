@@ -17,15 +17,19 @@
 package com.exorath.exoHolograms.impl;
 
 import com.exorath.exoHolograms.api.lines.TextLine;
+import com.exorath.exoHolograms.nms.NMSNameable;
 import org.bukkit.Location;
 
 /**
  * Created by toonsev on 5/25/2017.
  */
-public class SimpleTextLine extends SimpleHologramLine implements TextLine{
+public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     private String text;
-    public SimpleTextLine(String text) {
+    private NMSNameable nmsNameble;
+
+    public SimpleTextLine(String text, NMSNameable nmsNameable) {
         super(0.23);
+        this.nmsNameble = nmsNameable;
         setText(text);
     }
 
@@ -37,10 +41,18 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine{
     @Override
     public void setText(String text) {
         this.text = text;
+        if (nmsNameble != null)
+            nmsNameble.setNameNMS(text != null && !text.isEmpty() ? text : "");
     }
 
     @Override
     public void teleport(Location location) {
+        if (nmsNameble != null)
+            nmsNameble.setLocationNMS(new Location(location.getWorld(), location.getX(), location.getY() + getTextOffset(), location.getZ()));
 
+    }
+
+    private double getTextOffset() {
+        return -0.29d;
     }
 }

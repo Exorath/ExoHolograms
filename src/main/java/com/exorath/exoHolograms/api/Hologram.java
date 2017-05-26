@@ -17,15 +17,16 @@
 package com.exorath.exoHolograms.api;
 
 import com.exorath.exoHolograms.api.lines.HologramLine;
+import com.exorath.exoHolograms.api.lines.TextLine;
 import org.bukkit.Location;
 
 /**
  * Created by toonsev on 5/25/2017.
  */
 public interface Hologram {
-   void appendLine(HologramLine line);
+    TextLine appendTextLine(String line);
 
-    void insertLine(int index, HologramLine line);
+    TextLine insertTextLine(int index, String line);
 
     HologramLine getLine(int index);
 
@@ -41,6 +42,8 @@ public interface Hologram {
     Location getLocation();
 
     void remove();
+
+    double getHeight();
 
     boolean isRemoved();
 }
