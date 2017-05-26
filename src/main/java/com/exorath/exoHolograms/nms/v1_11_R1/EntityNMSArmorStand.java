@@ -41,7 +41,7 @@ import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
  * Created by toonsev on 5/26/2017.
  */
 public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorStand {
-    private boolean lockTicks;
+    private boolean lockTicks = true;
     private HologramLine hologramLine;
 
     public EntityNMSArmorStand(World world, HologramLine hologramLine) {
