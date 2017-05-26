@@ -6,6 +6,6 @@ before_install:
 - java -jar BuildTools.jar --rev 1.11.2
 install:
 - mvn clean install -DskipTests
-- mv ~/.m2/repository/org/bukkit/
+- rm -rf ~/.m2/repository/org/bukkit/
 - rm -rf ~/.m2/repository/org/spigotmc/
 - rm -rf ~/.m2/repository/net/md-5/
