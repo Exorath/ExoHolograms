@@ -31,7 +31,7 @@ import java.util.List;
 public class SimpleHologram implements Hologram {
     private static final double SPACE_BETWEEN_LINES = 0.02d;
     private Location location;
-    private final List<SimpleHologramLine> lines = new ArrayList<>();
+    private final List<HologramLine> lines = new ArrayList<>();
     private boolean removed;
     private NMSManager nmsManager;
     private boolean visible = true;
@@ -39,6 +39,11 @@ public class SimpleHologram implements Hologram {
     public SimpleHologram(Location location, NMSManager nmsManager) {
         this.location = location;
         this.nmsManager = nmsManager;
+    }
+
+    @Override
+    public List<HologramLine> getLines() {
+        return lines;
     }
 
     public TextLine appendTextLine(String text) {
@@ -88,7 +93,7 @@ public class SimpleHologram implements Hologram {
         if (lines.isEmpty())
             return 0;
         double height = 0.0;
-        for (SimpleHologramLine line : lines)
+        for (HologramLine line : lines)
             height += line.getHeight();
         height += SPACE_BETWEEN_LINES * (lines.size() - 1);
         return height;
@@ -147,23 +152,24 @@ public class SimpleHologram implements Hologram {
             double currentY = location.getY();
             boolean first = true;
 
-            for (SimpleHologramLine line : lines) {
+            for (HologramLine line : lines) {
+                SimpleHologramLine simpleHologramLine = (SimpleHologramLine) line;
                 currentY -= line.getHeight();
                 if (first) {
                     first = false;
                 } else
                     currentY -= SPACE_BETWEEN_LINES;
-                if (line.isSpawned()) {
-                    line.teleport(new Location(location.getWorld(), location.getX(), currentY, location.getZ()));
+                if (simpleHologramLine.isSpawned()) {
+                    simpleHologramLine.teleport(new Location(location.getWorld(), location.getX(), currentY, location.getZ()));
                 } else
-                    line.spawn(new Location(location.getWorld(), location.getX(), currentY, location.getZ()));
+                    simpleHologramLine.spawn(new Location(location.getWorld(), location.getX(), currentY, location.getZ()));
             }
         } else
             System.out.println("Tried to update some holo lines but the chunk wasn't loaded");
     }
 
     public void despawnEntities() {
-        for (SimpleHologramLine line : lines)
+        for (HologramLine line : lines)
             line.despawn();
     }
 }

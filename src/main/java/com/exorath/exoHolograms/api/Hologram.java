@@ -20,6 +20,8 @@ import com.exorath.exoHolograms.api.lines.HologramLine;
 import com.exorath.exoHolograms.api.lines.TextLine;
 import org.bukkit.Location;
 
+import java.util.List;
+
 /**
  * Created by toonsev on 5/25/2017.
  */
@@ -33,6 +35,8 @@ public interface Hologram {
     void removeLine(int index);
 
     void removeLine(HologramLine line);
+
+    List<HologramLine> getLines();
 
 
     void clear();

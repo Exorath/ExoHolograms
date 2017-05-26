@@ -28,4 +28,6 @@ public interface HologramLine {
 
     void setVisible(boolean visible);
 
+    double getHeight();
+
 }

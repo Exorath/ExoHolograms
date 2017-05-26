@@ -42,6 +42,7 @@ public abstract  class SimpleHologramLine implements HologramLine {
         return parent;
     }
 
+    @Override
     public double getHeight() {
         return height;
     }
