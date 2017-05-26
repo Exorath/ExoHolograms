@@ -20,15 +20,31 @@ import com.exorath.exoHolograms.nms.NMSArmorStand;
 import com.exorath.exoHolograms.nms.NMSManager;
 import net.minecraft.server.v1_11_R1.Entity;
 import net.minecraft.server.v1_11_R1.MathHelper;
+import net.minecraft.server.v1_11_R1.World;
 import net.minecraft.server.v1_11_R1.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by toonsev on 5/26/2017.
  */
 public class NMSManagerImpl implements NMSManager {
+
+    private Method validateEntityMethod;
+
+    public NMSManagerImpl() {
+        try {
+            validateEntityMethod = World.class.getDeclaredMethod("b", Entity.class);
+            validateEntityMethod.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     public NMSArmorStand spawnArmorStand(Location location) {
         WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
@@ -36,7 +52,7 @@ public class NMSManagerImpl implements NMSManager {
         as.setLocationNMS(location);
         if (!addEntityToWorld(nmsWorld, as))
             System.out.println("Failed to spawn armorstand :(");
-        if(as == null)
+        if (as == null)
             System.out.println("Spawning armorstand returned null");
         return as;
     }
@@ -54,6 +70,12 @@ public class NMSManagerImpl implements NMSManager {
         }
         nmsWorld.getChunkAt(chunkX, chunkZ).a(nmsEntity);
         nmsWorld.entityList.add(nmsEntity);
+        try {
+            validateEntityMethod.invoke(nmsWorld, nmsEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 }
