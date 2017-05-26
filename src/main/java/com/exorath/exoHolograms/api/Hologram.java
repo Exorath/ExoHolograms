@@ -46,4 +46,6 @@ public interface Hologram {
     double getHeight();
 
     boolean isRemoved();
+
+    void despawnEntities();
 }

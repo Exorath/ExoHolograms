@@ -25,4 +25,5 @@ public interface HologramLine {
     void despawn();
 
     Hologram getParent();
+
 }

@@ -75,7 +75,7 @@ public class HologramsAPI implements Listener {
             if (!entity.isDead()) {
                 BaseNMSEntity entityBase = nmsManager.getNMSEntityBase(entity);
                 if (entityBase != null) {
-                    entityBase.killEntityNMS();
+                    entityBase.getHologramLine().getParent().despawnEntities();
                 }
             }
         }
