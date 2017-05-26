@@ -1,7 +1,8 @@
 jdk:
 - oraclejdk8
-install:
+before_install:
 - wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 - git config --global --unset core.autocrlf
 - java -jar BuildTools.jar --rev 1.11
+install:
 - mvn clean install -DskipTests
