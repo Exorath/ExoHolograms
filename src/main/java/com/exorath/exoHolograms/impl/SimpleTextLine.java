@@ -60,6 +60,7 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     public void spawn(Location location) {
         if(!isSpawned() || nmsArmorStand == null){
             nmsArmorStand = nmsManager.spawnArmorStand(location, this);
+            nmsArmorStand.setNameNMS(text != null && !text.isEmpty() ? text : "");
             this.teleport(location);
         }
         super.spawn(location);

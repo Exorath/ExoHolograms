@@ -108,7 +108,7 @@ public class SimpleHologram implements Hologram {
     }
 
     public void remove() {
-        if (removed) {
+        if (!removed) {
             removed = true;
             clear();
         }
