@@ -20,6 +20,10 @@ import com.exorath.exoHolograms.impl.SimpleHologram;
 import com.exorath.exoHolograms.nms.NMSManager;
 import com.exorath.exoHolograms.nms.v1_11_R1.NMSManagerImpl;
 import org.bukkit.Location;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,7 +32,7 @@ import java.util.Set;
 /**
  * Created by toonsev on 5/26/2017.
  */
-public class HologramsAPI {
+public class HologramsAPI implements Listener {
     private static HologramsAPI instance;
     private NMSManager nmsManager;
 
@@ -39,30 +43,42 @@ public class HologramsAPI {
         HologramsAPI.instance = this;
     }
 
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent event) {
+        for (Hologram hologram : holograms)
+                if (hologram.getLocation().getChunk().equals(event.getChunk()))
+                    ((SimpleHologram) hologram).refreshSingleLines();
+    }
+
+    @EventHandler
+    public void onChunkUnload(ChunkUnloadEvent event) {
+        for (Hologram hologram : holograms)
+            if (hologram.getLocation().getChunk().equals(event.getChunk()))
+                ((SimpleHologram) hologram).despawnEntities();
+    }
+
+
     public NMSManager getNMSManager() {
         return nmsManager;
     }
 
-    public SimpleHologram createSimpleHologram(Location location) {
-        return new SimpleHologram(location, nmsManager);
-    }
-
-    //Hologram registry is currently unused
-    private void addHologram(Hologram hologram) {
+    public SimpleHologram addHologram(Location location) {
+        SimpleHologram hologram = new SimpleHologram(location, nmsManager);
         holograms.add(hologram);
+        return hologram;
     }
 
-    private void removeHologram(Hologram hologram) {
+    public void removeHologram(Hologram hologram) {
         holograms.remove(hologram);
         if (!hologram.isRemoved())
             hologram.remove();
     }
 
-    private Collection<Hologram> getHolograms() {
+    public Collection<Hologram> getHolograms() {
         return holograms;
     }
 
-    private void clear() {
+    public void clearHolograms() {
         for (Hologram hologram : holograms)
             if (!hologram.isRemoved())
                 hologram.remove();

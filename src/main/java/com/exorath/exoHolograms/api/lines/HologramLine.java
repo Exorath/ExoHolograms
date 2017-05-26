@@ -20,5 +20,5 @@ package com.exorath.exoHolograms.api.lines;
  * Created by toonsev on 5/25/2017.
  */
 public interface HologramLine {
-    void remove();
+    void despawn();
 }

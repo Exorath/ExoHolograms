@@ -43,7 +43,7 @@ public class SimpleHologram implements Hologram {
     public TextLine appendTextLine(String text) {
         if (removed)
             return null;
-        SimpleTextLine simpleTextLine = new SimpleTextLine(text, nmsManager.spawnArmorStand(location));
+        SimpleTextLine simpleTextLine = new SimpleTextLine(text, nmsManager);
         lines.add(simpleTextLine);
         refreshSingleLines();
         return simpleTextLine;
@@ -52,7 +52,7 @@ public class SimpleHologram implements Hologram {
     public TextLine insertTextLine(int index, String text) {
         if (removed)
             return null;
-        SimpleTextLine simpleTextLine = new SimpleTextLine(text, nmsManager.spawnArmorStand(location));
+        SimpleTextLine simpleTextLine = new SimpleTextLine(text, nmsManager);
         lines.add(index, simpleTextLine);
         refreshSingleLines();
         return simpleTextLine;
@@ -82,7 +82,7 @@ public class SimpleHologram implements Hologram {
     }
 
     public void clear() {
-        lines.forEach(line -> line.remove());
+        lines.forEach(line -> line.despawn());
         lines.clear();
     }
 
@@ -118,7 +118,7 @@ public class SimpleHologram implements Hologram {
         return removed;
     }
 
-    private void refreshSingleLines() {
+    public void refreshSingleLines() {
         if (location.getWorld().isChunkLoaded(location.getChunk().getX(), location.getChunk().getZ())) {
             double currentY = location.getY();
             boolean first = true;
@@ -138,8 +138,8 @@ public class SimpleHologram implements Hologram {
             System.out.println("Tried to update some holo lines but the chunk wasn't loaded");
     }
 
-    private void despawnEntities() {
+    public void despawnEntities() {
         for (SimpleHologramLine line : lines)
-            line.remove();
+            line.despawn();
     }
 }

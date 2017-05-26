@@ -17,6 +17,8 @@
 package com.exorath.exoHolograms.impl;
 
 import com.exorath.exoHolograms.api.lines.TextLine;
+import com.exorath.exoHolograms.nms.NMSArmorStand;
+import com.exorath.exoHolograms.nms.NMSManager;
 import com.exorath.exoHolograms.nms.NMSNameable;
 import org.bukkit.Location;
 
@@ -25,11 +27,13 @@ import org.bukkit.Location;
  */
 public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     private String text;
-    private NMSNameable nmsNameble;
+    private NMSArmorStand nmsArmorStand;
 
-    public SimpleTextLine(String text, NMSNameable nmsNameable) {
+    private NMSManager nmsManager;
+
+    public SimpleTextLine(String text, NMSManager nmsManager) {
         super(0.23);
-        this.nmsNameble = nmsNameable;
+        this.nmsManager = nmsManager;
         setText(text);
     }
 
@@ -41,21 +45,33 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
     @Override
     public void setText(String text) {
         this.text = text;
-        if (nmsNameble != null)
-            nmsNameble.setNameNMS(text != null && !text.isEmpty() ? text : "");
+        if (nmsArmorStand != null)
+            nmsArmorStand.setNameNMS(text != null && !text.isEmpty() ? text : "");
     }
 
     @Override
     public void teleport(Location location) {
-        if (nmsNameble != null)
-            nmsNameble.setLocationNMS(new Location(location.getWorld(), location.getX(), location.getY() + getTextOffset(), location.getZ()));
+        if (nmsArmorStand != null)
+            nmsArmorStand.setLocationNMS(new Location(location.getWorld(), location.getX(), location.getY() + getTextOffset(), location.getZ()));
 
     }
 
     @Override
     public void spawn(Location location) {
+        if(!isSpawned() || nmsArmorStand == null){
+            nmsArmorStand = nmsManager.spawnArmorStand(location);
+            this.teleport(location);
+        }
         super.spawn(location);
-        this.teleport(location);
+    }
+
+    @Override
+    public void despawn() {
+        super.despawn();
+        if(nmsArmorStand != null) {
+            nmsArmorStand.killEntityNMS();
+            nmsArmorStand = null;
+        }
     }
 
     private double getTextOffset() {

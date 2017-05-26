@@ -31,7 +31,7 @@ public abstract  class SimpleHologramLine implements HologramLine {
     }
 
     public void spawn(Location location) {
-        remove();
+        despawn();
         spawned = true;
     }
 
@@ -44,7 +44,7 @@ public abstract  class SimpleHologramLine implements HologramLine {
     }
 
     @Override
-    public void remove() {
+    public void despawn() {
         spawned = false;
     }
     public abstract void teleport(Location location);

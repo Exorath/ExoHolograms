@@ -95,9 +95,8 @@ public class EntityNMSArmorStand extends EntityArmorStand implements NMSArmorSta
     //NMS OVERRIDE
     @Override
     public CraftEntity getBukkitEntity() {
-        if (super.bukkitEntity == null) {
+        if (super.bukkitEntity == null)
             super.bukkitEntity = new CraftNMSArmorStand(super.world.getServer(), this);
-        }
         return super.bukkitEntity;
     }
     @Override
