@@ -16,7 +16,6 @@
 
 package com.exorath.exoHolograms.impl;
 
-import com.exorath.exoHolograms.api.Hologram;
 import com.exorath.exoHolograms.api.lines.TextLine;
 import com.exorath.exoHolograms.nms.NMSArmorStand;
 import com.exorath.exoHolograms.nms.NMSManager;
@@ -58,12 +57,12 @@ public class SimpleTextLine extends SimpleHologramLine implements TextLine {
 
     @Override
     public void spawn(Location location) {
+        super.spawn(location);
         if(!isSpawned() || nmsArmorStand == null){
             nmsArmorStand = nmsManager.spawnArmorStand(location, this);
             nmsArmorStand.setNameNMS(text != null && !text.isEmpty() ? text : "");
             this.teleport(location);
         }
-        super.spawn(location);
     }
 
     @Override
