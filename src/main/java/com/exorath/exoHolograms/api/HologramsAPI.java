@@ -31,15 +31,15 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredListener;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by toonsev on 5/26/2017.
  */
 public class HologramsAPI implements Listener {
+    private static boolean registered = false;
     private static HologramsAPI instance;
     private Plugin plugin;
     private NMSManager nmsManager;
@@ -48,6 +48,11 @@ public class HologramsAPI implements Listener {
 
     public HologramsAPI(Plugin plugin) {
         this.plugin = plugin;
+        if (!registered) {
+            registered = true;
+            if (!ChunkLoadEvent.getHandlerList().getRegisteredListeners(plugin).stream().filter(registeredListener -> registeredListener.getListener() == this).findFirst().isPresent())
+                Bukkit.getPluginManager().registerEvents(this, plugin);
+        }
         this.nmsManager = new NMSManagerImpl();
     }
 
