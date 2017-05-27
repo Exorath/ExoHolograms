@@ -89,8 +89,10 @@ public class HologramsAPI implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         if (nmsManager.getNMSEntityBase(event.getEntity()) != null)
-            if (event.isCancelled())
+            if (event.isCancelled()) {
+                System.out.println("Uncancelled hologram spawn");
                 event.setCancelled(false);
+            }
     }
 
     public NMSManager getNMSManager() {
