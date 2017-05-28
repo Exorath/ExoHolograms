@@ -136,4 +136,8 @@ public class HologramsAPI implements Listener {
     public synchronized static HologramsAPI getInstance() {
         return getInstance(Bukkit.getPluginManager().getPlugins()[0]);
     }
+
+    public Plugin getPlugin(){
+        return plugin;
+    }
 }

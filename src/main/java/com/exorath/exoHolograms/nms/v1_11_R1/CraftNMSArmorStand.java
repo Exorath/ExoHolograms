@@ -19,13 +19,16 @@ package com.exorath.exoHolograms.nms.v1_11_R1;
 
 import java.util.Collection;
 
+import com.exorath.exoHolograms.api.HologramsAPI;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_11_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftArmorStand;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
@@ -36,6 +39,7 @@ import org.bukkit.util.Vector;
 public class CraftNMSArmorStand extends CraftArmorStand {
     public CraftNMSArmorStand(CraftServer server, EntityNMSArmorStand entity) {
         super(server, entity);
+        setMetadata("doNotDespawn", new FixedMetadataValue(HologramsAPI.getInstance().getPlugin(), ""));
     }
 
     // DISSALOW BUKKIT METHODS
